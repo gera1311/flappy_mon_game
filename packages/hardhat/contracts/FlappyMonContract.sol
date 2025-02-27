@@ -28,7 +28,7 @@ contract FlappyMonContract {
         // Проверяем, прошел ли день с последнего чека
         if (currentTime >= user.lastCheckIn + DAY_SECONDS) {
             user.lastCheckIn = currentTime;
-            user.attemptsLeft = 3; // Даем 3 попытки на новый день
+            user.attemptsLeft = 10; // Даем 10 попыток на новый день
             emit CheckedIn(msg.sender, currentTime);
         } else {
             require(user.attemptsLeft > 0, "No attempts left today!");

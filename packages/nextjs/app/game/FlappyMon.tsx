@@ -5,6 +5,17 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { ethers } from "ethers";
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
 
+const CANVAS_WIDTH = 450;
+const CANVAS_HEIGHT = 600;
+const BIRD_X = 50;
+const BIRD_SIZE = 30;
+const GRAVITY = 0.6;
+const FLAP_VELOCITY = -11;
+const PIPE_WIDTH = 60;
+const PIPE_GAP = 180;
+const PIPE_SPEED = 2;
+const PIPE_SPACING = 180;
+
 // ABI смарт-контракта FlappyMonContract
 const FLAPPY_MON_ABI = [
   {
@@ -36,19 +47,7 @@ const FLAPPY_MON_ABI = [
 ];
 
 // Адрес контракта
-const CONTRACT_ADDRESS = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"; // Замените на ваш адрес
-
-// Константы игры
-const CANVAS_WIDTH = 450;
-const CANVAS_HEIGHT = 600;
-const BIRD_X = 50;
-const BIRD_SIZE = 20;
-const GRAVITY = 0.6;
-const FLAP_VELOCITY = -11;
-const PIPE_WIDTH = 60;
-const PIPE_GAP = 180;
-const PIPE_SPEED = 2;
-const PIPE_SPACING = 180;
+const CONTRACT_ADDRESS = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
 
 const FlappyMon: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -157,44 +156,51 @@ const FlappyMon: React.FC = () => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Очистка холста
-    ctx.fillStyle = "#1A1A2E";
-    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    const birdImage = new Image();
+    birdImage.src = "/monadLogo.png"; // Путь к изображению в папке public
 
-    // Отрисовка труб
-    ctx.fillStyle = "#00FF00";
-    pipes.forEach(pipe => {
-      ctx.fillRect(pipe.x, 0, PIPE_WIDTH, pipe.gapY - PIPE_GAP / 2);
-      ctx.fillRect(pipe.x, pipe.gapY + PIPE_GAP / 2, PIPE_WIDTH, CANVAS_HEIGHT - (pipe.gapY + PIPE_GAP / 2));
-      ctx.strokeStyle = "#FFFFFF";
-      ctx.strokeRect(pipe.x, 0, PIPE_WIDTH, pipe.gapY - PIPE_GAP / 2);
-      ctx.strokeRect(pipe.x, pipe.gapY + PIPE_GAP / 2, PIPE_WIDTH, CANVAS_HEIGHT - (pipe.gapY + PIPE_GAP / 2));
-    });
-
-    // Отрисовка птицы
-    ctx.fillStyle = "#FF3333";
-    ctx.fillRect(BIRD_X, bird.y, BIRD_SIZE, BIRD_SIZE);
-    ctx.strokeStyle = "#FFFFFF";
-    ctx.strokeRect(BIRD_X, bird.y, BIRD_SIZE, BIRD_SIZE);
-
-    // Отрисовка счета
-    ctx.fillStyle = "#FFFFFF";
-    ctx.font = "20px Arial";
-    ctx.textAlign = "left"; // Сбрасываем выравнивание
-    ctx.fillText(`Score: ${score}`, 15, 30);
-
-    if (gameOver) {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+    birdImage.onload = () => {
+      ctx.fillStyle = "#1A1A2E"; // Фон
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-      ctx.fillStyle = "#FF3333";
-      ctx.font = "40px Arial";
-      ctx.textAlign = "center";
-      ctx.fillText("Game Over", CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 20);
+
+      // Отрисовка труб
+      ctx.fillStyle = "#00FF00";
+      pipes.forEach(pipe => {
+        ctx.fillRect(pipe.x, 0, PIPE_WIDTH, pipe.gapY - PIPE_GAP / 2);
+        ctx.fillRect(pipe.x, pipe.gapY + PIPE_GAP / 2, PIPE_WIDTH, CANVAS_HEIGHT - (pipe.gapY + PIPE_GAP / 2));
+        ctx.strokeStyle = "#FFFFFF";
+        ctx.strokeRect(pipe.x, 0, PIPE_WIDTH, pipe.gapY - PIPE_GAP / 2);
+        ctx.strokeRect(pipe.x, pipe.gapY + PIPE_GAP / 2, PIPE_WIDTH, CANVAS_HEIGHT - (pipe.gapY + PIPE_GAP / 2));
+      });
+
+      // Отрисовка изображения птицы
+      ctx.drawImage(birdImage, BIRD_X, bird.y, BIRD_SIZE, BIRD_SIZE);
+
+      // Отрисовка счета
       ctx.fillStyle = "#FFFFFF";
       ctx.font = "20px Arial";
-      ctx.fillText(`Score: ${score}`, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 20);
-    }
-  }, [bird.y, pipes, score, gameOver, gameStarted]); // Добавили gameStarted в зависимости
+      ctx.textAlign = "left";
+      ctx.fillText(`Score: ${score}`, 15, 30);
+
+      // Экран "Game Over"
+      if (gameOver) {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.7)"; // Полупрозрачный фон
+        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        ctx.fillStyle = "#FF3333";
+        ctx.font = "40px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText("Game Over", CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 20);
+        ctx.fillStyle = "#FFFFFF";
+        ctx.font = "20px Arial";
+        ctx.fillText(`Score: ${score}`, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 20);
+      }
+    };
+
+    // Обработка ошибки загрузки изображения
+    birdImage.onerror = () => {
+      console.error("Failed to load bird image");
+    };
+  }, [bird, pipes, score, gameOver, gameStarted]);
 
   // Управление вводом
   useEffect(() => {
@@ -254,49 +260,51 @@ const FlappyMon: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-row items-start p-4 gap-4">
-      {/* Игровое поле */}
-      <div className="flex flex-col items-center">
-        <h2 className="text-3xl font-bold text-primary neon-text">FlappyMon</h2>
-        <p className="text-lg text-secondary">Score: {score}</p>
-        <p className="text-sm text-gray-400 mb-2">
-          Connected: {address?.slice(0, 6)}...{address?.slice(-4)}
-        </p>
-        <canvas
-          ref={canvasRef}
-          width={CANVAS_WIDTH}
-          height={CANVAS_HEIGHT}
-          className="border border-primary shadow-neon rounded-lg"
-        />
-        {!gameStarted ? (
-          attemptsLeft > 0 ? (
-            <button onClick={startGame} className="mt-4 btn btn-primary btn-lg hover:animate-pulse">
-              Start Game
-            </button>
-          ) : (
-            <p className="mt-4 text-lg text-red-500">Зачекиньтесь завтра и сыграйте снова</p>
-          )
-        ) : gameOver ? (
-          attemptsLeft > 0 ? (
-            <button onClick={startGame} className="mt-4 btn btn-primary btn-lg hover:animate-pulse">
-              Try Again
-            </button>
-          ) : (
-            <p className="mt-4 text-lg text-red-500">Зачекиньтесь завтра и сыграйте снова</p>
-          )
-        ) : null}
-        <p className="text-sm text-gray-400 mt-4">Press SPACE or click to jump</p>
-      </div>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900">
+      <div className="flex flex-row items-start gap-4 p-4">
+        {/* Игровое поле */}
+        <div className="flex flex-col items-center">
+          <h2 className="text-3xl font-bold text-primary neon-text">FlappyMon</h2>
+          <p className="text-lg text-secondary">Score: {score}</p>
+          <p className="text-sm text-gray-400 mb-2">
+            Connected: {address?.slice(0, 6)}...{address?.slice(-4)}
+          </p>
+          <canvas
+            ref={canvasRef}
+            width={CANVAS_WIDTH}
+            height={CANVAS_HEIGHT}
+            className="border border-primary shadow-neon rounded-lg"
+          />
+          {!gameStarted ? (
+            attemptsLeft > 0 ? (
+              <button onClick={startGame} className="mt-4 btn btn-primary btn-lg hover:animate-pulse">
+                Start Game
+              </button>
+            ) : (
+              <p className="mt-4 text-lg text-red-500">Check in tomorrow and play again</p>
+            )
+          ) : gameOver ? (
+            attemptsLeft > 0 ? (
+              <button onClick={startGame} className="mt-4 btn btn-primary btn-lg hover:animate-pulse">
+                Try Again
+              </button>
+            ) : (
+              <p className="mt-4 text-lg text-red-500">Check in tomorrow and play again</p>
+            )
+          ) : null}
+          <p className="text-sm text-gray-400 mt-4">Press SPACE or click to jump</p>
+        </div>
 
-      {/* Боковая панель */}
-      <div className="flex flex-col bg-gray-800 p-4 rounded-lg shadow-neon w-64">
-        <h3 className="text-xl font-bold text-primary neon-text mb-2">Player Stats</h3>
-        <p className="text-sm text-gray-300">Attempts Left: {ethers.BigNumber.from(attemptsLeft).toString()}</p>
-        <p className="text-sm text-gray-300">Total Score: {ethers.BigNumber.from(totalScore).toString()}</p>
-        <p className="text-sm text-gray-300">High Score: {ethers.BigNumber.from(highScore).toString()}</p>
-        <button onClick={handleCheckIn} className="mt-4 btn btn-secondary w-full" disabled={!canCheckIn}>
-          {canCheckIn ? "Check In" : "Checked In Today"}
-        </button>
+        {/* Боковая панель */}
+        <div className="flex flex-col bg-gray-800 p-4 rounded-lg shadow-neon w-64">
+          <h3 className="text-xl font-bold text-primary neon-text mb-2">Player Stats</h3>
+          <p className="text-sm text-gray-300">Attempts Left: {ethers.BigNumber.from(attemptsLeft).toString()}</p>
+          <p className="text-sm text-gray-300">Total Score: {ethers.BigNumber.from(totalScore).toString()}</p>
+          <p className="text-sm text-gray-300">High Score: {ethers.BigNumber.from(highScore).toString()}</p>
+          <button onClick={handleCheckIn} className="mt-4 btn btn-secondary w-full" disabled={!canCheckIn}>
+            {canCheckIn ? "Check In" : "Checked In Today"}
+          </button>
+        </div>
       </div>
     </div>
   );

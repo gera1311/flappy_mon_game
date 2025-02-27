@@ -47,7 +47,7 @@ const FLAPPY_MON_ABI = [
 ];
 
 // Адрес контракта
-const CONTRACT_ADDRESS = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
+const CONTRACT_ADDRESS = "0x8987B3F9843A8fE516dCDFDeB91Ac84AC528b7b9";
 
 const FlappyMon: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);

@@ -1,0 +1,36 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/FlappyMonContract.sol": {
+      "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.20;\r\n\r\ncontract FlappyMonContract {\r\n    // Структура для данных пользователя\r\n    struct UserData {\r\n        uint256 lastCheckIn; // Время последнего чека (в секундах с эпохи)\r\n        uint8 attemptsLeft;  // Оставшиеся попытки на день\r\n        uint256 totalScore;  // Сумма всех очков\r\n        uint256 highScore;   // Рекорд пользователя\r\n    }\r\n\r\n    // Маппинг адресов пользователей к их данным\r\n    mapping(address => UserData) public users;\r\n\r\n    // События для логирования\r\n    event CheckedIn(address indexed user, uint256 timestamp);\r\n    event GamePlayed(address indexed user, uint256 score, uint256 newTotalScore, uint256 newHighScore);\r\n    \r\n    // Период в секундах для нового дня (24 часа)\r\n    uint256 constant DAY_SECONDS = 24 * 60 * 60;\r\n\r\n    // Функция чека\r\n    function checkIn() external {\r\n        UserData storage user = users[msg.sender];\r\n        uint256 currentTime = block.timestamp;\r\n\r\n        // Проверяем, прошел ли день с последнего чека\r\n        if (currentTime >= user.lastCheckIn + DAY_SECONDS) {\r\n            user.lastCheckIn = currentTime;\r\n            user.attemptsLeft = 10; // Даем 10 попыток на новый день\r\n            emit CheckedIn(msg.sender, currentTime);\r\n        } else {\r\n            require(user.attemptsLeft > 0, \"No attempts left today!\");\r\n        }\r\n    }\r\n\r\n    // Функция записи результата игры\r\n    function recordGame(uint256 score) external {\r\n        UserData storage user = users[msg.sender];\r\n        uint256 currentTime = block.timestamp;\r\n\r\n        // Проверяем, что пользователь сделал чек сегодня\r\n        require(currentTime < user.lastCheckIn + DAY_SECONDS, \"Please check in first!\");\r\n        require(user.attemptsLeft > 0, \"No attempts left today!\");\r\n\r\n        // Уменьшаем количество попыток\r\n        user.attemptsLeft -= 1;\r\n\r\n        // Обновляем общий счет и рекорд\r\n        user.totalScore += score;\r\n        if (score > user.highScore) {\r\n            user.highScore = score;\r\n        }\r\n\r\n        emit GamePlayed(msg.sender, score, user.totalScore, user.highScore);\r\n    }\r\n\r\n    // Функция получения данных пользователя\r\n    function getUserData(address userAddress) external view returns (uint256 lastCheckIn, uint8 attemptsLeft, uint256 totalScore, uint256 highScore) {\r\n        UserData memory user = users[userAddress];\r\n        return (user.lastCheckIn, user.attemptsLeft, user.totalScore, user.highScore);\r\n    }\r\n}"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "evmVersion": "paris",
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

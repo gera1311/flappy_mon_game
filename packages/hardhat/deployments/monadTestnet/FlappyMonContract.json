@@ -1,0 +1,250 @@
+{
+  "address": "0x8987B3F9843A8fE516dCDFDeB91Ac84AC528b7b9",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "CheckedIn",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "score",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "newTotalScore",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "newHighScore",
+          "type": "uint256"
+        }
+      ],
+      "name": "GamePlayed",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "checkIn",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "userAddress",
+          "type": "address"
+        }
+      ],
+      "name": "getUserData",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "lastCheckIn",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint8",
+          "name": "attemptsLeft",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "totalScore",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "highScore",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "score",
+          "type": "uint256"
+        }
+      ],
+      "name": "recordGame",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "users",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "lastCheckIn",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint8",
+          "name": "attemptsLeft",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "totalScore",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "highScore",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x1b80ba893d53be44bac98f3819df463d60177ca5244f03756959b17effb09747",
+  "receipt": {
+    "to": null,
+    "from": "0x4d5F769bAbcD1A730E0f63023EfEfDCc018a1AF1",
+    "contractAddress": "0x8987B3F9843A8fE516dCDFDeB91Ac84AC528b7b9",
+    "transactionIndex": 87,
+    "gasUsed": "285671",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x8b3a66fdbe0e4406ac99e009b6ba9190424f9951d583332bb5462a23433aaad9",
+    "transactionHash": "0x1b80ba893d53be44bac98f3819df463d60177ca5244f03756959b17effb09747",
+    "logs": [],
+    "blockNumber": 5378298,
+    "cumulativeGasUsed": "81453416",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "c84dfb5f0fe3fb8c371a03ef8b1ae3fb",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.20+commit.a1b79de6\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"}],\"name\":\"CheckedIn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"score\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newTotalScore\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newHighScore\",\"type\":\"uint256\"}],\"name\":\"GamePlayed\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"checkIn\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"userAddress\",\"type\":\"address\"}],\"name\":\"getUserData\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"lastCheckIn\",\"type\":\"uint256\"},{\"internalType\":\"uint8\",\"name\":\"attemptsLeft\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"totalScore\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"highScore\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"score\",\"type\":\"uint256\"}],\"name\":\"recordGame\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"users\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"lastCheckIn\",\"type\":\"uint256\"},{\"internalType\":\"uint8\",\"name\":\"attemptsLeft\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"totalScore\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"highScore\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/FlappyMonContract.sol\":\"FlappyMonContract\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/FlappyMonContract.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\npragma solidity ^0.8.20;\\r\\n\\r\\ncontract FlappyMonContract {\\r\\n    // \\u0421\\u0442\\u0440\\u0443\\u043a\\u0442\\u0443\\u0440\\u0430 \\u0434\\u043b\\u044f \\u0434\\u0430\\u043d\\u043d\\u044b\\u0445 \\u043f\\u043e\\u043b\\u044c\\u0437\\u043e\\u0432\\u0430\\u0442\\u0435\\u043b\\u044f\\r\\n    struct UserData {\\r\\n        uint256 lastCheckIn; // \\u0412\\u0440\\u0435\\u043c\\u044f \\u043f\\u043e\\u0441\\u043b\\u0435\\u0434\\u043d\\u0435\\u0433\\u043e \\u0447\\u0435\\u043a\\u0430 (\\u0432 \\u0441\\u0435\\u043a\\u0443\\u043d\\u0434\\u0430\\u0445 \\u0441 \\u044d\\u043f\\u043e\\u0445\\u0438)\\r\\n        uint8 attemptsLeft;  // \\u041e\\u0441\\u0442\\u0430\\u0432\\u0448\\u0438\\u0435\\u0441\\u044f \\u043f\\u043e\\u043f\\u044b\\u0442\\u043a\\u0438 \\u043d\\u0430 \\u0434\\u0435\\u043d\\u044c\\r\\n        uint256 totalScore;  // \\u0421\\u0443\\u043c\\u043c\\u0430 \\u0432\\u0441\\u0435\\u0445 \\u043e\\u0447\\u043a\\u043e\\u0432\\r\\n        uint256 highScore;   // \\u0420\\u0435\\u043a\\u043e\\u0440\\u0434 \\u043f\\u043e\\u043b\\u044c\\u0437\\u043e\\u0432\\u0430\\u0442\\u0435\\u043b\\u044f\\r\\n    }\\r\\n\\r\\n    // \\u041c\\u0430\\u043f\\u043f\\u0438\\u043d\\u0433 \\u0430\\u0434\\u0440\\u0435\\u0441\\u043e\\u0432 \\u043f\\u043e\\u043b\\u044c\\u0437\\u043e\\u0432\\u0430\\u0442\\u0435\\u043b\\u0435\\u0439 \\u043a \\u0438\\u0445 \\u0434\\u0430\\u043d\\u043d\\u044b\\u043c\\r\\n    mapping(address => UserData) public users;\\r\\n\\r\\n    // \\u0421\\u043e\\u0431\\u044b\\u0442\\u0438\\u044f \\u0434\\u043b\\u044f \\u043b\\u043e\\u0433\\u0438\\u0440\\u043e\\u0432\\u0430\\u043d\\u0438\\u044f\\r\\n    event CheckedIn(address indexed user, uint256 timestamp);\\r\\n    event GamePlayed(address indexed user, uint256 score, uint256 newTotalScore, uint256 newHighScore);\\r\\n    \\r\\n    // \\u041f\\u0435\\u0440\\u0438\\u043e\\u0434 \\u0432 \\u0441\\u0435\\u043a\\u0443\\u043d\\u0434\\u0430\\u0445 \\u0434\\u043b\\u044f \\u043d\\u043e\\u0432\\u043e\\u0433\\u043e \\u0434\\u043d\\u044f (24 \\u0447\\u0430\\u0441\\u0430)\\r\\n    uint256 constant DAY_SECONDS = 24 * 60 * 60;\\r\\n\\r\\n    // \\u0424\\u0443\\u043d\\u043a\\u0446\\u0438\\u044f \\u0447\\u0435\\u043a\\u0430\\r\\n    function checkIn() external {\\r\\n        UserData storage user = users[msg.sender];\\r\\n        uint256 currentTime = block.timestamp;\\r\\n\\r\\n        // \\u041f\\u0440\\u043e\\u0432\\u0435\\u0440\\u044f\\u0435\\u043c, \\u043f\\u0440\\u043e\\u0448\\u0435\\u043b \\u043b\\u0438 \\u0434\\u0435\\u043d\\u044c \\u0441 \\u043f\\u043e\\u0441\\u043b\\u0435\\u0434\\u043d\\u0435\\u0433\\u043e \\u0447\\u0435\\u043a\\u0430\\r\\n        if (currentTime >= user.lastCheckIn + DAY_SECONDS) {\\r\\n            user.lastCheckIn = currentTime;\\r\\n            user.attemptsLeft = 10; // \\u0414\\u0430\\u0435\\u043c 10 \\u043f\\u043e\\u043f\\u044b\\u0442\\u043e\\u043a \\u043d\\u0430 \\u043d\\u043e\\u0432\\u044b\\u0439 \\u0434\\u0435\\u043d\\u044c\\r\\n            emit CheckedIn(msg.sender, currentTime);\\r\\n        } else {\\r\\n            require(user.attemptsLeft > 0, \\\"No attempts left today!\\\");\\r\\n        }\\r\\n    }\\r\\n\\r\\n    // \\u0424\\u0443\\u043d\\u043a\\u0446\\u0438\\u044f \\u0437\\u0430\\u043f\\u0438\\u0441\\u0438 \\u0440\\u0435\\u0437\\u0443\\u043b\\u044c\\u0442\\u0430\\u0442\\u0430 \\u0438\\u0433\\u0440\\u044b\\r\\n    function recordGame(uint256 score) external {\\r\\n        UserData storage user = users[msg.sender];\\r\\n        uint256 currentTime = block.timestamp;\\r\\n\\r\\n        // \\u041f\\u0440\\u043e\\u0432\\u0435\\u0440\\u044f\\u0435\\u043c, \\u0447\\u0442\\u043e \\u043f\\u043e\\u043b\\u044c\\u0437\\u043e\\u0432\\u0430\\u0442\\u0435\\u043b\\u044c \\u0441\\u0434\\u0435\\u043b\\u0430\\u043b \\u0447\\u0435\\u043a \\u0441\\u0435\\u0433\\u043e\\u0434\\u043d\\u044f\\r\\n        require(currentTime < user.lastCheckIn + DAY_SECONDS, \\\"Please check in first!\\\");\\r\\n        require(user.attemptsLeft > 0, \\\"No attempts left today!\\\");\\r\\n\\r\\n        // \\u0423\\u043c\\u0435\\u043d\\u044c\\u0448\\u0430\\u0435\\u043c \\u043a\\u043e\\u043b\\u0438\\u0447\\u0435\\u0441\\u0442\\u0432\\u043e \\u043f\\u043e\\u043f\\u044b\\u0442\\u043e\\u043a\\r\\n        user.attemptsLeft -= 1;\\r\\n\\r\\n        // \\u041e\\u0431\\u043d\\u043e\\u0432\\u043b\\u044f\\u0435\\u043c \\u043e\\u0431\\u0449\\u0438\\u0439 \\u0441\\u0447\\u0435\\u0442 \\u0438 \\u0440\\u0435\\u043a\\u043e\\u0440\\u0434\\r\\n        user.totalScore += score;\\r\\n        if (score > user.highScore) {\\r\\n            user.highScore = score;\\r\\n        }\\r\\n\\r\\n        emit GamePlayed(msg.sender, score, user.totalScore, user.highScore);\\r\\n    }\\r\\n\\r\\n    // \\u0424\\u0443\\u043d\\u043a\\u0446\\u0438\\u044f \\u043f\\u043e\\u043b\\u0443\\u0447\\u0435\\u043d\\u0438\\u044f \\u0434\\u0430\\u043d\\u043d\\u044b\\u0445 \\u043f\\u043e\\u043b\\u044c\\u0437\\u043e\\u0432\\u0430\\u0442\\u0435\\u043b\\u044f\\r\\n    function getUserData(address userAddress) external view returns (uint256 lastCheckIn, uint8 attemptsLeft, uint256 totalScore, uint256 highScore) {\\r\\n        UserData memory user = users[userAddress];\\r\\n        return (user.lastCheckIn, user.attemptsLeft, user.totalScore, user.highScore);\\r\\n    }\\r\\n}\",\"keccak256\":\"0x82cf04851970f7a8506afdf37e7442f9f5ee0d1a86eb1fb25634b74039057ffe\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610429806100206000396000f3fe608060405234801561001057600080fd5b506004361061004c5760003560e01c8063183ff08514610051578063a87430ba1461005b578063e54f606e146100ba578063ffc9896b146100cd575b600080fd5b61005961012f565b005b610094610069366004610362565b6000602081905290815260409020805460018201546002830154600390930154919260ff9091169184565b6040805194855260ff909316602085015291830152606082015260800160405180910390f35b6100596100c8366004610392565b6101ff565b6100946100db366004610362565b6001600160a01b03166000908152602081815260409182902082516080810184528154808252600183015460ff16938201849052600283015494820185905260039092015460609091018190529093919291565b336000908152602081905260409020805442906101509062015180906103c1565b81106101a85780825560018201805460ff1916600a17905560405133907fdddb6e14f7f2101397a6526aab95e964de7f1f44ed06aa47a1c9a0e6b99244569061019c9084815260200190565b60405180910390a25050565b600182015460ff166101fb5760405162461bcd60e51b81526020600482015260176024820152764e6f20617474656d707473206c65667420746f6461792160481b60448201526064015b60405180910390fd5b5050565b336000908152602081905260409020805442906102209062015180906103c1565b81106102675760405162461bcd60e51b8152602060048201526016602482015275506c6561736520636865636b20696e2066697273742160501b60448201526064016101f2565b600182015460ff166102b55760405162461bcd60e51b81526020600482015260176024820152764e6f20617474656d707473206c65667420746f6461792160481b60448201526064016101f2565b600182810180546000906102cd90849060ff166103da565b92506101000a81548160ff021916908360ff160217905550828260020160008282546102f991906103c1565b9091555050600382015483111561031257600382018390555b6002820154600383015460408051868152602081019390935282015233907fa99b776cf5025c68da32d25f20ab3b86fc3e832ba6976f31b879627dcfdd448e9060600160405180910390a2505050565b60006020828403121561037457600080fd5b81356001600160a01b038116811461038b57600080fd5b9392505050565b6000602082840312156103a457600080fd5b5035919050565b634e487b7160e01b600052601160045260246000fd5b808201808211156103d4576103d46103ab565b92915050565b60ff82811682821603908111156103d4576103d46103ab56fea2646970667358221220b0e48d4a394afe5e525bd34c298f5119e549ae9bd30f93c44d240bf38b2688f864736f6c63430008140033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061004c5760003560e01c8063183ff08514610051578063a87430ba1461005b578063e54f606e146100ba578063ffc9896b146100cd575b600080fd5b61005961012f565b005b610094610069366004610362565b6000602081905290815260409020805460018201546002830154600390930154919260ff9091169184565b6040805194855260ff909316602085015291830152606082015260800160405180910390f35b6100596100c8366004610392565b6101ff565b6100946100db366004610362565b6001600160a01b03166000908152602081815260409182902082516080810184528154808252600183015460ff16938201849052600283015494820185905260039092015460609091018190529093919291565b336000908152602081905260409020805442906101509062015180906103c1565b81106101a85780825560018201805460ff1916600a17905560405133907fdddb6e14f7f2101397a6526aab95e964de7f1f44ed06aa47a1c9a0e6b99244569061019c9084815260200190565b60405180910390a25050565b600182015460ff166101fb5760405162461bcd60e51b81526020600482015260176024820152764e6f20617474656d707473206c65667420746f6461792160481b60448201526064015b60405180910390fd5b5050565b336000908152602081905260409020805442906102209062015180906103c1565b81106102675760405162461bcd60e51b8152602060048201526016602482015275506c6561736520636865636b20696e2066697273742160501b60448201526064016101f2565b600182015460ff166102b55760405162461bcd60e51b81526020600482015260176024820152764e6f20617474656d707473206c65667420746f6461792160481b60448201526064016101f2565b600182810180546000906102cd90849060ff166103da565b92506101000a81548160ff021916908360ff160217905550828260020160008282546102f991906103c1565b9091555050600382015483111561031257600382018390555b6002820154600383015460408051868152602081019390935282015233907fa99b776cf5025c68da32d25f20ab3b86fc3e832ba6976f31b879627dcfdd448e9060600160405180910390a2505050565b60006020828403121561037457600080fd5b81356001600160a01b038116811461038b57600080fd5b9392505050565b6000602082840312156103a457600080fd5b5035919050565b634e487b7160e01b600052601160045260246000fd5b808201808211156103d4576103d46103ab565b92915050565b60ff82811682821603908111156103d4576103d46103ab56fea2646970667358221220b0e48d4a394afe5e525bd34c298f5119e549ae9bd30f93c44d240bf38b2688f864736f6c63430008140033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 15,
+        "contract": "contracts/FlappyMonContract.sol:FlappyMonContract",
+        "label": "users",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_mapping(t_address,t_struct(UserData)10_storage)"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_mapping(t_address,t_struct(UserData)10_storage)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => struct FlappyMonContract.UserData)",
+        "numberOfBytes": "32",
+        "value": "t_struct(UserData)10_storage"
+      },
+      "t_struct(UserData)10_storage": {
+        "encoding": "inplace",
+        "label": "struct FlappyMonContract.UserData",
+        "members": [
+          {
+            "astId": 3,
+            "contract": "contracts/FlappyMonContract.sol:FlappyMonContract",
+            "label": "lastCheckIn",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 5,
+            "contract": "contracts/FlappyMonContract.sol:FlappyMonContract",
+            "label": "attemptsLeft",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint8"
+          },
+          {
+            "astId": 7,
+            "contract": "contracts/FlappyMonContract.sol:FlappyMonContract",
+            "label": "totalScore",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 9,
+            "contract": "contracts/FlappyMonContract.sol:FlappyMonContract",
+            "label": "highScore",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_uint256"
+          }
+        ],
+        "numberOfBytes": "128"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      },
+      "t_uint8": {
+        "encoding": "inplace",
+        "label": "uint8",
+        "numberOfBytes": "1"
+      }
+    }
+  }
+}

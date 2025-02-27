@@ -7,13 +7,36 @@ import { useAccount, useReadContract, useWriteContract } from "wagmi";
 
 // ABI смарт-контракта FlappyMonContract
 const FLAPPY_MON_ABI = [
-  "function checkIn() external",
-  "function recordGame(uint256 score) external",
-  "function getUserData(address userAddress) external view returns (uint256, uint8, uint256, uint256)",
+  {
+    name: "getUserData",
+    stateMutability: "view",
+    type: "function",
+    inputs: [{ name: "user", type: "address" }],
+    outputs: [
+      { name: "lastCheckIn", type: "uint256" },
+      { name: "attemptsLeft", type: "uint256" },
+      { name: "totalScore", type: "uint256" },
+      { name: "highScore", type: "uint256" },
+    ],
+  },
+  {
+    name: "checkIn",
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [],
+    outputs: [],
+  },
+  {
+    name: "recordGame",
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "score", type: "uint256" }],
+    outputs: [],
+  },
 ];
 
-// Адрес контракта (замените на ваш реальный адрес после деплоя)
-const CONTRACT_ADDRESS = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"; // Например, "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0" для локального деплоя
+// Адрес контракта
+const CONTRACT_ADDRESS = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"; // Замените на ваш адрес
 
 // Константы игры
 const CANVAS_WIDTH = 450;
@@ -37,35 +60,28 @@ const FlappyMon: React.FC = () => {
 
   const { address, isConnected } = useAccount();
 
-  // Чтение данных пользователя из контракта с useReadContract
+  // Чтение данных пользователя из контракта
   const { data: userData, refetch } = useReadContract({
     address: CONTRACT_ADDRESS,
     abi: FLAPPY_MON_ABI,
     functionName: "getUserData",
     args: [address],
-    query: {
-      enabled: !!address,
-    },
-  }) as { data: [number, number, bigint, bigint]; refetch: () => void };
+    query: { enabled: !!address },
+  }) as { data: [bigint, bigint, bigint, bigint] | undefined; refetch: () => void };
 
-  // Деструктуризация данных пользователя
-  const [lastCheckInDay, attemptsLeft, totalScore, highScore] = userData ?? [0, 0, 0n, 0n];
+  const [lastCheckIn, attemptsLeft, totalScore, highScore] = userData ?? [0n, 0n, 0n, 0n];
 
-  // Функции записи в контракт с useWriteContract
+  // Функции записи в контракт
   const { writeContract: checkIn } = useWriteContract({
-    mutation: {
-      onSuccess: () => refetch(),
-    },
+    mutation: { onSuccess: () => refetch() },
   });
 
   const { writeContract: recordGame } = useWriteContract({
-    mutation: {
-      onSuccess: () => refetch(),
-    },
+    mutation: { onSuccess: () => refetch() },
   });
 
   const currentDay = Math.floor(Date.now() / 1000 / (24 * 60 * 60));
-  const canCheckIn = lastCheckInDay < currentDay;
+  const canCheckIn = lastCheckIn < currentDay;
 
   // Игровой цикл
   useEffect(() => {
@@ -82,7 +98,7 @@ const FlappyMon: React.FC = () => {
             address: CONTRACT_ADDRESS,
             abi: FLAPPY_MON_ABI,
             functionName: "recordGame",
-            args: [score],
+            args: [BigInt(score)], // Преобразуем score в BigInt
           });
           newY = Math.max(0, Math.min(newY, CANVAS_HEIGHT - BIRD_SIZE));
         }
@@ -108,7 +124,7 @@ const FlappyMon: React.FC = () => {
 
         return filteredPipes;
       });
-    }, 1000 / 60);
+    }, 1000 / 60); // 60 FPS
 
     return () => clearInterval(gameLoop);
   }, [gameStarted, gameOver, score, recordGame]);
@@ -128,7 +144,7 @@ const FlappyMon: React.FC = () => {
           address: CONTRACT_ADDRESS,
           abi: FLAPPY_MON_ABI,
           functionName: "recordGame",
-          args: [score],
+          args: [BigInt(score)], // Преобразуем score в BigInt
         });
       }
     });
@@ -141,9 +157,11 @@ const FlappyMon: React.FC = () => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    // Очистка холста
     ctx.fillStyle = "#1A1A2E";
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
+    // Отрисовка труб
     ctx.fillStyle = "#00FF00";
     pipes.forEach(pipe => {
       ctx.fillRect(pipe.x, 0, PIPE_WIDTH, pipe.gapY - PIPE_GAP / 2);
@@ -153,13 +171,16 @@ const FlappyMon: React.FC = () => {
       ctx.strokeRect(pipe.x, pipe.gapY + PIPE_GAP / 2, PIPE_WIDTH, CANVAS_HEIGHT - (pipe.gapY + PIPE_GAP / 2));
     });
 
+    // Отрисовка птицы
     ctx.fillStyle = "#FF3333";
     ctx.fillRect(BIRD_X, bird.y, BIRD_SIZE, BIRD_SIZE);
     ctx.strokeStyle = "#FFFFFF";
     ctx.strokeRect(BIRD_X, bird.y, BIRD_SIZE, BIRD_SIZE);
 
+    // Отрисовка счета
     ctx.fillStyle = "#FFFFFF";
     ctx.font = "20px Arial";
+    ctx.textAlign = "left"; // Сбрасываем выравнивание
     ctx.fillText(`Score: ${score}`, 15, 30);
 
     if (gameOver) {
@@ -173,7 +194,7 @@ const FlappyMon: React.FC = () => {
       ctx.font = "20px Arial";
       ctx.fillText(`Score: ${score}`, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 20);
     }
-  }, [bird.y, pipes, score, gameOver]);
+  }, [bird.y, pipes, score, gameOver, gameStarted]); // Добавили gameStarted в зависимости
 
   // Управление вводом
   useEffect(() => {
@@ -202,7 +223,7 @@ const FlappyMon: React.FC = () => {
 
   // Старт/рестарт игры
   const startGame = () => {
-    if (attemptsLeft === 0) return; // Не начинаем игру, если нет попыток
+    if (attemptsLeft === 0n) return; // Не начинаем игру, если нет попыток
     setBird({ y: CANVAS_HEIGHT / 2, vy: 0 });
     setPipes([
       { x: CANVAS_WIDTH - 50, gapY: Math.random() * (CANVAS_HEIGHT - 200) + 100, scored: false },
@@ -248,21 +269,21 @@ const FlappyMon: React.FC = () => {
           className="border border-primary shadow-neon rounded-lg"
         />
         {!gameStarted ? (
-          <button
-            onClick={startGame}
-            className="mt-4 btn btn-primary btn-lg hover:animate-pulse"
-            disabled={attemptsLeft === 0}
-          >
-            Start Game
-          </button>
+          attemptsLeft > 0 ? (
+            <button onClick={startGame} className="mt-4 btn btn-primary btn-lg hover:animate-pulse">
+              Start Game
+            </button>
+          ) : (
+            <p className="mt-4 text-lg text-red-500">Зачекиньтесь завтра и сыграйте снова</p>
+          )
         ) : gameOver ? (
-          <button
-            onClick={startGame}
-            className="mt-4 btn btn-primary btn-lg hover:animate-pulse"
-            disabled={attemptsLeft === 0}
-          >
-            Try Again
-          </button>
+          attemptsLeft > 0 ? (
+            <button onClick={startGame} className="mt-4 btn btn-primary btn-lg hover:animate-pulse">
+              Try Again
+            </button>
+          ) : (
+            <p className="mt-4 text-lg text-red-500">Зачекиньтесь завтра и сыграйте снова</p>
+          )
         ) : null}
         <p className="text-sm text-gray-400 mt-4">Press SPACE or click to jump</p>
       </div>
@@ -270,7 +291,7 @@ const FlappyMon: React.FC = () => {
       {/* Боковая панель */}
       <div className="flex flex-col bg-gray-800 p-4 rounded-lg shadow-neon w-64">
         <h3 className="text-xl font-bold text-primary neon-text mb-2">Player Stats</h3>
-        <p className="text-sm text-gray-300">Attempts Left: {attemptsLeft}</p>
+        <p className="text-sm text-gray-300">Attempts Left: {ethers.BigNumber.from(attemptsLeft).toString()}</p>
         <p className="text-sm text-gray-300">Total Score: {ethers.BigNumber.from(totalScore).toString()}</p>
         <p className="text-sm text-gray-300">High Score: {ethers.BigNumber.from(highScore).toString()}</p>
         <button onClick={handleCheckIn} className="mt-4 btn btn-secondary w-full" disabled={!canCheckIn}>

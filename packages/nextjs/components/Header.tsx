@@ -89,10 +89,10 @@ export const Header = () => {
           <button className="btn btn-accent">NFT</button>
         </ul>
         <ul className="steps">
-          <li className="step step-primary">Register</li>
-          <li className="step">Play</li>
-          <li className="step">Win</li>
-          <li className="step">Mint</li>
+          <li className="step step-primary">Connect Wallet</li>
+          <li className="step">Daily Check In</li>
+          <li className="step">Play Game</li>
+          <li className="step">Win NFT</li>
         </ul>
       </div>
       <div className="navbar-end flex-grow mr-4">

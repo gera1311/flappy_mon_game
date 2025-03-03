@@ -1,20 +1,21 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import {
+  BIRD_SIZE,
+  BIRD_X,
+  CANVAS_HEIGHT,
+  CANVAS_WIDTH,
+  FLAP_VELOCITY,
+  GRAVITY,
+  PIPE_GAP,
+  PIPE_SPACING,
+  PIPE_SPEED,
+  PIPE_WIDTH,
+} from "./utils/constants";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { ethers } from "ethers";
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
-
-const CANVAS_WIDTH = 450;
-const CANVAS_HEIGHT = 600;
-const BIRD_X = 50;
-const BIRD_SIZE = 30;
-const GRAVITY = 0.6;
-const FLAP_VELOCITY = -11;
-const PIPE_WIDTH = 60;
-const PIPE_GAP = 180;
-const PIPE_SPEED = 2;
-const PIPE_SPACING = 180;
 
 // ABI смарт-контракта FlappyMonContract
 const FLAPPY_MON_ABI = [
@@ -79,8 +80,8 @@ const FlappyMon: React.FC = () => {
     mutation: { onSuccess: () => refetch() },
   });
 
-  const currentDay = Math.floor(Date.now() / 1000 / (24 * 60 * 60));
-  const canCheckIn = lastCheckIn < currentDay;
+  const currentDay = Math.floor(Date.now() / 1000);
+  const canCheckIn = currentDay >= Number(lastCheckIn) + 24 * 60 * 60;
 
   // Игровой цикл
   useEffect(() => {
@@ -242,6 +243,7 @@ const FlappyMon: React.FC = () => {
 
   // Функция для выполнения чека
   const handleCheckIn = () => {
+    if (!canCheckIn) return;
     checkIn({
       address: CONTRACT_ADDRESS,
       abi: FLAPPY_MON_ABI,
@@ -296,14 +298,26 @@ const FlappyMon: React.FC = () => {
         </div>
 
         {/* Боковая панель */}
-        <div className="flex flex-col bg-gray-800 p-4 rounded-lg shadow-neon w-64">
-          <h3 className="text-xl font-bold text-primary neon-text mb-2">Player Stats</h3>
-          <p className="text-sm text-gray-300">Attempts Left: {ethers.BigNumber.from(attemptsLeft).toString()}</p>
-          <p className="text-sm text-gray-300">Total Score: {ethers.BigNumber.from(totalScore).toString()}</p>
-          <p className="text-sm text-gray-300">High Score: {ethers.BigNumber.from(highScore).toString()}</p>
-          <button onClick={handleCheckIn} className="mt-4 btn btn-secondary w-full" disabled={!canCheckIn}>
-            {canCheckIn ? "Check In" : "Checked In Today"}
-          </button>
+        <div className="flex flex-col gap-3 p-3">
+          <div className="invisible">
+            <h2 className="text-3xl font-bold">FlappyMon</h2>
+            <p className="text-lg">Score: {score}</p>
+            <p className="text-sm mb-2">Connected: placeholder</p>
+          </div>
+          <div className="flex flex-col bg-gray-800 p-4 rounded-lg shadow-neon w-64">
+            <h3 className="text-xl font-bold text-primary neon-text mb-2">Player Stats</h3>
+            <p className="text-sm text-gray-300">Attempts Left: {ethers.BigNumber.from(attemptsLeft).toString()}</p>
+            <p className="text-sm text-gray-300">Total Score: {ethers.BigNumber.from(totalScore).toString()}</p>
+            <p className="text-sm text-gray-300">High Score: {ethers.BigNumber.from(highScore).toString()}</p>
+            <button onClick={handleCheckIn} className="mt-4 btn btn-secondary w-full" disabled={!canCheckIn}>
+              {canCheckIn ? "Check In" : "Checked In Today"}
+            </button>
+          </div>
+          {/* Leaderboard */}
+          <div className="flex flex-col bg-gray-800 p-4 rounded-lg shadow-neon w-64">
+            <h3 className="text-xl font-bold text-primary neon-text mb-2">Leaderboard</h3>
+            <p className="text-sm text-gray-300">Coming soon...</p>
+          </div>
         </div>
       </div>
     </div>

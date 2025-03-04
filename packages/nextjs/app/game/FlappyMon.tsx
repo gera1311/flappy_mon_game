@@ -310,7 +310,9 @@ const FlappyMon: React.FC = () => {
             <p className="text-sm text-gray-300">Attempts Left: {ethers.BigNumber.from(attemptsLeft).toString()}</p>
             <p className="text-sm text-gray-300">Total Score: {ethers.BigNumber.from(totalScore).toString()}</p>
             <p className="text-sm text-gray-300">High Score: {ethers.BigNumber.from(highScore).toString()}</p>
-            <CountdownTimer lastCheckIn={lastCheckIn} />
+            <p className="text-sm text-gray-300">
+              <CountdownTimer lastCheckIn={lastCheckIn} />
+            </p>
             <button onClick={handleCheckIn} className="mt-4 btn btn-secondary w-full" disabled={!canCheckIn}>
               {canCheckIn ? "Check In" : "Checked In Today"}
             </button>
